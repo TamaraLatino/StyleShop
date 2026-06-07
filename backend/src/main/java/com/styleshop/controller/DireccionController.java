@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/direcciones")
 public class DireccionController {
@@ -16,15 +18,18 @@ public class DireccionController {
     //Agrega direcciones
     @PostMapping
         public ResponseEntity<Direccion> agregar(@RequestBody Direccion direccion){
-            return ResponseEntity.ok(direccionService.verDirecciones(idUsuario));
+            return ResponseEntity.ok(direccionService.agregarDireccion(direccion));
         }
         //Ver direcciones del cliente
-    @DeleteMapping
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<Direccion>> verDirección(@PathVariable Long idUsuario){
+        return ResponseEntity.ok(direccionService.verDirecciones(idUsuario));
+    }
 
         //Eliminar direcciones
     @DeleteMapping("/{idDireccio}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long idDirección){
-        direccionService.eliminarDireccion(idDirección);
+    public ResponseEntity<Void> eliminar(@PathVariable Long idDireccion){
+        direccionService.eliminarDireccion(idDireccion);
         return ResponseEntity.noContent().build();
     }
 
